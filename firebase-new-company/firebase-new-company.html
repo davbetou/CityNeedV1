@@ -1,0 +1,61 @@
+<ion-header>
+    <ion-navbar>
+        <ion-buttons start>
+            <button ion-button icon-only (click)="dissmiss()">
+                <ion-icon name="md-arrow-back"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>
+            Créer votre entreprise
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding class="new-company-content">
+    <form class="new-suggestion-form" [formGroup]="validations_form" (ngSubmit)="onSubmit(validations_form.value)">
+        <ion-item>
+            <ion-label floating color="primary">Nom de votre Entreprise</ion-label>
+            <ion-input type="text" formControlName="siege" class="form-control" required></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating color="primary">Activité</ion-label>
+            <ion-input type="text" formControlName="activite" class="form-control" required></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating color="primary">Description</ion-label>
+            <ion-input type="text" formControlName="description" class="form-control" required></ion-input>
+        </ion-item>
+
+        <ion-toolbar>
+        <ion-searchbar formControlName="ville" class="search-places-bar"
+                       placeholder="Saisissez où vous êtes" [(ngModel)]="map_model.search_query"
+                       (ionInput)="searchPlacesPredictions(map_model.search_query)" (ionClear)="clearSearch()"
+        ></ion-searchbar>
+        </ion-toolbar>
+        <ion-list [hidden]="map_model.search_places_predictions.length == 0" class="search-options-list">
+            <ion-item *ngFor="let place of map_model.search_places_predictions" tappable (click)="selectSearchResult(place)">
+                {{ place.description }}
+            </ion-item>
+        </ion-list>
+
+        <ion-list>
+        <ion-item *ngIf="imageUrl">
+            <img [src]="imageUrl" style="max-width: 100%">
+        </ion-item>
+        </ion-list>
+
+        <div text-center>
+            <button ion-button round large icon-only (click)="onTakePhoto()">
+                <ion-icon name="camera"></ion-icon>
+            </button>
+        </div>
+
+        <div text-center>
+            <button ion-button round large icon-only (click)="upload()">
+                <ion-icon name="cloud-download"></ion-icon>
+            </button>
+        </div>
+
+        <button class="form-action-button" ion-button block type="submit" [disabled]="!validations_form.valid">Créer</button>
+
+    </form>

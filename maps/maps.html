@@ -1,0 +1,85 @@
+<ion-header>
+  <hr>
+  <ion-navbar>
+    <ion-title>CityNeed</ion-title>
+
+    <h4><span *ngIf="userprofil?.role == 'superrole'">cher admin</span>  Retrouvez ce dont vous avez besoin au plus près</h4>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-row no-padding class="map-row">
+    <ion-col no-padding class="map-col">
+      <div class="search-container">
+        <!-- <ion-toolbar class="search-toolbar transparent-background"> -->
+        <ion-toolbar class="search-toolbar">
+          <ion-buttons start>
+            <button ion-button icon-only (click)="geolocateMe()" class="geolocation-button" [ngClass]="{'using-geolocation': map_model.using_geolocation}">
+              <ion-icon name="locate"></ion-icon>
+            </button>
+          </ion-buttons>
+          <ion-searchbar class="search-places-bar" placeholder="Saisissez où vous êtes" [(ngModel)]="map_model.search_query" (ionInput)="searchPlacesPredictions(map_model.search_query)" (ionClear)="clearSearch()"></ion-searchbar>
+        </ion-toolbar>
+        <ion-list [hidden]="map_model.search_places_predictions.length == 0" class="search-options-list">
+          <ion-item *ngFor="let place of map_model.search_places_predictions" tappable (click)="selectSearchResult(place)">
+            {{ place.description }}
+          </ion-item>
+        </ion-list>
+      </div>
+      <div class="map-container">
+        <google-map [options]="map_model.map_options"></google-map>
+      </div>
+      <ion-scroll [hidden]="false" scrollX="true" class="nearby-places-container">
+        <ion-row class="nearby-places-row">
+          <ion-col width-64 class="place-item-outer" *ngFor="let i of [1,2,3]">
+            <ion-card class="place-card">
+              <background-image class="place-image-heading" [src]="'https://images.sftcdn.net/images/t_app-cover-m,f_auto/p/befbcde0-9b36-11e6-95b9-00163ed833e7/260663710/the-test-fun-for-friends-screenshot.jpg'">
+                <ion-row class="heading-row">
+                  <ion-col no-padding width-100>
+                    <h2 class="place-title"> Test </h2>
+                  </ion-col>
+                </ion-row>
+              </background-image>
+              <div class="place-details-container">
+                <ion-row class="details-row">
+                  <ion-col no-padding width-50>
+                  </ion-col>
+                  <ion-col no-padding width-50>
+                    <div class="place-rating">
+                      <ion-item class="rating-item">
+                        <rating data-value="2" max="5" read-only="true"></rating>
+                      </ion-item>
+                    </div>
+                  </ion-col>
+                </ion-row>
+                <ion-list class="details-list" no-lines>
+                  <ion-item class="place-location">
+                    <ion-avatar item-left>
+                      <ion-icon name="pin"></ion-icon>
+                    </ion-avatar>
+                    <span class="location-text">jlakjlkld dkalkd la klzda d</span>
+                  </ion-item>
+                </ion-list>
+              </div>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-scroll>
+    </ion-col>
+  </ion-row>
+  <ion-content class="card-background-page">
+  <ion-card (click)="goToPromo()">
+    <img src="../../assets/images/market.png"/>
+    <div class="card-title">Promotions</div>
+    <div class="card-subtitle">41 Listings</div>
+  </ion-card>
+
+  <ion-card (click)="goToAides()">
+    <img src="../../assets/images/market.png"/>
+    <div class="card-title">Aides</div>
+    <div class="card-subtitle">41 Listings</div>
+  </ion-card>
+  </ion-content>
+
+</ion-content>
